@@ -1,6 +1,6 @@
 @()
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="en">
     <head>
         @* Here's where we render the page title `String`. *@
         <title>DropZoneTest</title>
@@ -17,12 +17,12 @@
         @* And here's where we render the `Html` object containing
         * the page content. *@
         <form
-        class="dropzone"
+        class="dropzone field"
         id="my-awesome-dropzone"  method="post" enctype="multipart/form-data">
         </form>
 
-        <form method="post" action="/zip" id="form-zip">
-
+        <form method="post" action="/zip" id="form-zip" class="field">
+            <textarea class="textarea" placeholder="信息输入" rows="5" name="ziptext" id="zip-text"></textarea>
             <input type="hidden" value="" id="zip-files-name" name="zipfiles">
             <button type="button" class="button is-info" id="btn-transfer">开始传输</button>
         </form>

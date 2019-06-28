@@ -1,8 +1,8 @@
 package controllers
 
-import java.io.{File, FileInputStream, FileOutputStream}
+import java.io.{File, FileInputStream, FileOutputStream, FileWriter}
 import java.nio.file.attribute.PosixFilePermissions
-import java.nio.file.{Files, Paths}
+import java.nio.file.{Files, Path, Paths}
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -21,7 +21,7 @@ import java.util.zip.ZipEntry
  * application's home page.
  */
 
-case class UserData(files: String)
+case class UserData(files: String, contentText: String)
 @Singleton
 class HomeController @Inject()(cc: ControllerComponents,
                               userRefineAction: UserRefineAction,
@@ -37,7 +37,8 @@ class HomeController @Inject()(cc: ControllerComponents,
 
   val userForm = Form(
     mapping(
-      "zipfiles" -> text
+      "zipfiles" -> text,
+      "ziptext" ->text
     )(UserData.apply)(UserData.unapply)
   )
 
@@ -66,6 +67,9 @@ class HomeController @Inject()(cc: ControllerComponents,
 
     val zos = new ZipOutputStream(fos)
 
+    /*
+    * 添加图片到压缩文件中
+    */
 
     userData.files.split(",").foreach{x =>
 
@@ -91,6 +95,38 @@ class HomeController @Inject()(cc: ControllerComponents,
       // close the InputStream
 
     }
+
+    /**
+      *
+      * 添加文字到压缩文件中
+      */
+
+    val newFilePath:Path = Paths.get(s"/tmp/fileUploads/${LocalDateTime.now.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"))}.txt")
+    Files.createFile(newFilePath)
+
+    Files.write(newFilePath, userData.contentText.getBytes)
+
+
+
+    val srcFile = new File(s"/tmp/fileUploads/${newFilePath.getFileName.toString}")
+
+    val fis:FileInputStream = new FileInputStream(srcFile)
+
+    zos.putNextEntry(new ZipEntry(srcFile.getName))
+
+    var length = fis.read(buffer)
+
+    while(length > 0 ) {
+
+      zos.write(buffer, 0, length)
+      length = fis.read(buffer)
+
+    }
+    zos.closeEntry()
+
+
+
+    //println(newFilePath.getFileName.toString)
 
     zos.close()
 
