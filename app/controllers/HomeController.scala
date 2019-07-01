@@ -2,9 +2,10 @@ package controllers
 
 import java.io.{File, FileInputStream, FileOutputStream, FileWriter}
 import java.nio.file.attribute.PosixFilePermissions
-import java.nio.file.{Files, Path, Paths}
+import java.nio.file.{FileSystem, FileSystems, Files, Path, Paths, StandardCopyOption}
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util
 
 import javax.inject._
 import models.UserRepository
@@ -15,6 +16,9 @@ import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.mvc._
 import java.util.zip.ZipOutputStream
 import java.util.zip.ZipEntry
+import java.net.URI
+
+import scala.collection.mutable
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
@@ -53,6 +57,31 @@ class HomeController @Inject()(cc: ControllerComponents,
   }
 
   def test() = Action { implicit request: Request[AnyContent] =>
+
+
+    //val fileZip:Path = Paths.get("/tmp/fileUploads/hi.zip")
+    //FileSystems.newFileSystem(fileZip, null)
+
+    //val filetoZip: Path = Paths.get("/tmp/fileUploads/hi.txt")
+
+/*
+    val zipProperties: java.util.Map[String, String] = new java.util.HashMap[String, String]()
+
+    zipProperties.put("create", "true")
+    zipProperties.put("encoding", "UTF-8")
+
+    val zipDisk = URI.create("jar:file:/tmp/my_zip_file.zip")
+    //val  zipfs: FileSystem = FileSystems.newFileSystem(zipDisk, zipProperties)
+
+    val zipfs: FileSystem = FileSystems.getFileSystem(zipDisk)
+
+    val file_to_zip: Path = Paths.get("/tmp/fileUploads/hi.txt")
+    /* Path inside ZIP File */
+    val pathInZipfile: Path = zipfs.getPath("/hi.txt")
+    /* Add file to archive */
+    Files.copy(file_to_zip, pathInZipfile, StandardCopyOption.REPLACE_EXISTING)
+*/
+
     Ok(views.html.test())
   }
 
@@ -106,6 +135,9 @@ class HomeController @Inject()(cc: ControllerComponents,
 
     Files.write(newFilePath, userData.contentText.getBytes)
 
+    //Files.
+
+    //FileSystems.new
 
 
     val srcFile = new File(s"/tmp/fileUploads/${newFilePath.getFileName.toString}")
