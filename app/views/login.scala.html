@@ -16,15 +16,15 @@
                     <div class="column is-4 is-offset-4">
                         <h3 class="title has-text-grey">请登录</h3>
                         <div class="box">
-                            <form method="post" action="/login">
+                            <form method="post" action="/login" enctype="multipart/form-data">
                                 <div class="field">
                                     <div class="control">
-                                        <input class="input is-large" type="text" placeholder="身份证" autofocus="">
+                                        <input class="input is-large" type="text" placeholder="用户名" autofocus="" name="cloud-username">
                                     </div>
                                 </div>
                                 <div class="field">
                                     <div class="control">
-                                        <input class="input is-large" type="password" placeholder="密码">
+                                        <input class="input is-large" type="password" placeholder="密码" name="cloud-password">
                                     </div>
                                 </div>
                                 <button class="button is-block is-info is-large is-fullwidth">登录</button>

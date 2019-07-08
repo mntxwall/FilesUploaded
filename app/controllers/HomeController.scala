@@ -46,18 +46,18 @@ class HomeController @Inject()(cc: ControllerComponents,
     )(UserData.apply)(UserData.unapply)
   )
 
-  def index() = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.index())
+  def index() = userRefineAction { implicit request: Request[AnyContent] =>
+
+    Ok(views.html.test())
   }
 
   def hello() = Action{
 
-    userRepo.test()
+    //userRepo.test()
     Ok("hihi")
   }
 
-  def test() = Action { implicit request: Request[AnyContent] =>
-
+  def test() = userRefineAction { implicit request: Request[AnyContent] =>
 
     //val fileZip:Path = Paths.get("/tmp/fileUploads/hi.zip")
     //FileSystems.newFileSystem(fileZip, null)

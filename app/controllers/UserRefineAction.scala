@@ -13,7 +13,7 @@ class UserRefineAction @Inject()(val parser: BodyParsers.Default)(implicit val e
 
   override protected def refine[A](request: Request[A]):Future[Either[Result, UserRequest[A]]] = {
 
-    val result = request.session.get("username")
+    val result = request.session.get("gc_username")
       .map(user => new UserRequest[A](Option(user), request))
       .toRight(Results.Ok(views.html.login()))
 
