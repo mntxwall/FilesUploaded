@@ -48,13 +48,19 @@ class HomeController @Inject()(cc: ControllerComponents,
 
   def index() = userRefineAction { implicit request: Request[AnyContent] =>
 
-    Ok(views.html.test())
+    Ok(views.html.files())
   }
 
   def hello() = Action{
 
     //userRepo.test()
     Ok("hihi")
+  }
+
+
+  def files() = userRefineAction{
+
+    Ok(views.html.files())
   }
 
   def test() = userRefineAction { implicit request: Request[AnyContent] =>
@@ -81,8 +87,7 @@ class HomeController @Inject()(cc: ControllerComponents,
     /* Add file to archive */
     Files.copy(file_to_zip, pathInZipfile, StandardCopyOption.REPLACE_EXISTING)
 */
-
-    Ok(views.html.test())
+    Ok(views.html.files())
   }
 
   def zip() = Action{ implicit request: Request[AnyContent] =>

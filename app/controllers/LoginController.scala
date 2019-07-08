@@ -70,7 +70,7 @@ class LoginController @Inject()(cc: ControllerComponents, config: Configuration)
     val loginResult = validateForLDAP(userLogin)
     loginResult match {
       case Success(value) => {
-        Redirect("/test").withSession("gc_username" -> userLogin.username, "gc_displayname" -> findUserInfo(value, userLogin.username).getOrElse(""))
+        Redirect("/").withSession("gc_username" -> userLogin.username, "gc_displayname" -> findUserInfo(value, userLogin.username).getOrElse(""))
       }
       case Failure(exception) =>{
         println(exception)
