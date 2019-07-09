@@ -54,7 +54,8 @@ class HomeController @Inject()(cc: ControllerComponents,
   def hello() = Action{
 
     //userRepo.test()
-    Ok("hihi")
+    //Ok("hihi")
+    Ok(views.html.files())
   }
 
 

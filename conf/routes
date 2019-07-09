@@ -11,7 +11,7 @@ GET /files  controllers.HomeController.files
 
 POST /upload controllers.HomeController.upload
 
-#GET /hello controllers.HomeController.hello
+GET /hello controllers.HomeController.hello
 
 POST /zip controllers.HomeController.zip
 
