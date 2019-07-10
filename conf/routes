@@ -6,7 +6,7 @@
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
 
-#GET /test  controllers.HomeController.test
+GET /test  controllers.HomeController.test
 GET /files  controllers.HomeController.files
 
 POST /upload controllers.HomeController.upload

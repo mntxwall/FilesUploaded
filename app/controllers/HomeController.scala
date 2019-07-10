@@ -18,6 +18,8 @@ import java.util.zip.ZipOutputStream
 import java.util.zip.ZipEntry
 import java.net.URI
 
+import services.ZipService
+
 import scala.collection.mutable
 
 /**
@@ -64,7 +66,7 @@ class HomeController @Inject()(cc: ControllerComponents,
     Ok(views.html.files())
   }
 
-  def test() = userRefineAction { implicit request: Request[AnyContent] =>
+  def test() = Action { implicit request: Request[AnyContent] =>
 
     //val fileZip:Path = Paths.get("/tmp/fileUploads/hi.zip")
     //FileSystems.newFileSystem(fileZip, null)
@@ -92,6 +94,17 @@ class HomeController @Inject()(cc: ControllerComponents,
   }
 
   def zip() = Action{ implicit request: Request[AnyContent] =>
+
+
+    val userData = userForm.bindFromRequest.get
+
+    println(userData)
+
+    ZipService.compressFiles(userData)
+    //ZipService.compressText(userData)
+
+
+    /*
 
     val zipFile = "/tmp/test.zip"
     val userData = userForm.bindFromRequest.get
@@ -170,6 +183,7 @@ class HomeController @Inject()(cc: ControllerComponents,
 
     //println("userData is "+ userData)
 
+     */
 
     Ok("Hello")
   }
