@@ -68,28 +68,44 @@ class HomeController @Inject()(cc: ControllerComponents,
   }
 
   def test() = Action { implicit request: Request[AnyContent] =>
-    
+
     Ok(views.html.files())
   }
 
-  def zip() = Action{ implicit request: Request[AnyContent] =>
+  def zip() = userRefineAction{ implicit request: Request[AnyContent] =>
 
 
     val userData = userForm.bindFromRequest.get
 
     println(userData)
 
-    val zipFileName:String = s"${config.get[String]("wei.filepath.zip")}/${LocalDateTime.now.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"))}.zip"
+    val zipFileNamePre: String = s"${request.session.get("gc_username").get}_${LocalDateTime.now.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"))}"
+    val zipFileName:String =
+      s"${config.get[String]("wei.filepath.zip")}/$zipFileNamePre.zip"
     val fileUploadPath: String = config.get[String]("wei.filepath.upload")
 
     println(zipFileName)
 
+    /*
+    * 压缩文件
+    *
+    * */
     ZipService.compressFiles(userData, zipFileName, fileUploadPath)
+
+    /*
+    * 把文件移动到目标目录
+    * */
+    val sourcePath = Paths.get(zipFileName)
+    val destPath = Paths.get(s"${config.get[String]("wei.filepath.dest")}/$zipFileNamePre.zip")
+
+    Files.move(sourcePath, destPath,
+      StandardCopyOption.REPLACE_EXISTING)
+
 
     Ok("Hello")
   }
 
-  def upload() = Action(parse.multipartFormData){ implicit request =>
+  def upload() = userRefineAction(parse.multipartFormData){ implicit request =>
 
     /*
     * upload the file to /tmp directory

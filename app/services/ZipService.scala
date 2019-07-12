@@ -11,7 +11,6 @@ import play.api.data.Form
 
 object ZipService  {
 
-
   def doFileCompress(filename: String, zos: ZipOutputStream):Unit = {
 
     val buffer = new Array[Byte](1024)
